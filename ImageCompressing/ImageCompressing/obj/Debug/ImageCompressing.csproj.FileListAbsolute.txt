@@ -1,0 +1,13 @@
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\ImageCompressing.exe.config
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\ImageCompressing.exe
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\ImageCompressing.pdb
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.csprojResolveAssemblyReference.cache
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\MainWindow.baml
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\MainWindow.g.cs
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\App.g.cs
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing_MarkupCompile.cache
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.g.resources
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.Properties.Resources.resources
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.csproj.GenerateResource.Cache
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.exe
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.pdb

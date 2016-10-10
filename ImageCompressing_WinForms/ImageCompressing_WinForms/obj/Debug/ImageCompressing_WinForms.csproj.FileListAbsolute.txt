@@ -1,0 +1,9 @@
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\bin\Debug\ImageCompressing_WinForms.exe.config
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\bin\Debug\ImageCompressing_WinForms.exe
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\bin\Debug\ImageCompressing_WinForms.pdb
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.csprojResolveAssemblyReference.cache
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.Form1.resources
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.Properties.Resources.resources
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.csproj.GenerateResource.Cache
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.exe
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing_WinForms\ImageCompressing_WinForms\obj\Debug\ImageCompressing_WinForms.pdb

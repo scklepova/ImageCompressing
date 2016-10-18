@@ -13,27 +13,39 @@
 <!--        <Canvas HorizontalAlignment="Right" Height="512" VerticalAlignment="Top" Width="512" Name="Img2" Margin="0,40,40,0" Grid.Column="2"/>-->
         <Menu Grid.Column="0" HorizontalAlignment="Left" Height="30" Margin="200,610,0,0" VerticalAlignment="Top" Width="100">
             <MenuItem Header="Image1 options">
-                <MenuItem Header="Load..." Click="LoadImage1_OnClick"></MenuItem>
-                <MenuItem Header="Copy from the other" Click="CopyImage1_OnClick"></MenuItem>
-                <MenuItem Header="To Black and White" Click="ToBlackAndWhiteSimple1_OnClick"></MenuItem>
-                <MenuItem Header="To Black and White CCIR" Click="ToBlackAndWhite1_OnClick"></MenuItem>
+                <MenuItem Header="Load">
+                    <MenuItem Header="Open" Click="LoadImage1_OnClick"></MenuItem>
+                    <MenuItem Header="Copy from the other" Click="CopyImage1_OnClick"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Grayscale">
+                    <MenuItem Header="Simple" Click="ToGrayscaleSimple1_OnClick"></MenuItem>
+                    <MenuItem Header="CCIR" Click="ToGrayscale1_OnClick"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Color Space Transformation">
+                    <MenuItem Header="Y" Click="Img1Y_OnClick"></MenuItem>
+                    <MenuItem Header="Cr" Click="Img1Cr_OnClick"></MenuItem>
+                    <MenuItem Header="Cb" Click="Img1Cb_OnClick"></MenuItem>
+                    <MenuItem Header="To RGB" Click="Img1_ToRGB"></MenuItem>
+                </MenuItem>
             </MenuItem>
         </Menu>
         
         
         <Menu Grid.Column="2" HorizontalAlignment="Right" Height="30" Margin="0,610,200,0" VerticalAlignment="Top" Width="100">
             <MenuItem Header="Image2 options">
-                <MenuItem Header="Load..." Click="LoadImage2_OnClick"></MenuItem>
-                <MenuItem Header="Copy from the other" Click="CopyImage2_OnClick"></MenuItem>
-                <MenuItem Header="To Black and White" Click="ToBlackAndWhiteSimple2_OnClick"></MenuItem>
-                <MenuItem Header="To Black and White CCIR" Click="ToBlackAndWhite2_OnClick"></MenuItem>
+                <MenuItem Header="Load">
+                    <MenuItem Header="Open" Click="LoadImage2_OnClick"></MenuItem>
+                    <MenuItem Header="Copy from the other" Click="CopyImage2_OnClick"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Grayscale">
+                    <MenuItem Header="Simple" Click="ToGrayscaleSimple2_OnClick"></MenuItem>
+                    <MenuItem Header="CCIR" Click="ToGrayscale2_OnClick"></MenuItem>
+                </MenuItem>
 
             </MenuItem>
         </Menu>
 
         <Label Grid.Column="1" Name="Psnr" Content="psnr" Width="100" Height="30" Margin="0,100,0,0" ></Label>
-        <Button Grid.Column="1" Name="PsnrButton" Content="Compute PSNR" Width="100" Height="30" Click="PsnrButton_OnClick"></Button>
-        <Button Grid.Column="1" Name="PsnrColorButton" Content="Compute PSNR For Color Image" Width="200" Height="30" Margin="0, -100, 0, 0"  Click="PsnrButton_OnClick"></Button>
-        
+        <Button Grid.Column="1" Name="PsnrButton" Content="Compute PSNR" Width="100" Height="30" Click="PsnrButton_OnClick"></Button>        
     </Grid>
 </Window>

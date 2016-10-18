@@ -180,10 +180,14 @@ namespace ImageCompressing
             var source = new byte[img.Length];
             for (var i = 0; i < img.Length; i += 4)
             {
-                source[i] = (byte)(img[i] + 256*(img[i + 2] - 128)/183);
-                long temp = 5329 * ((long)img[i + 1] - 128) + 11103 * ((long)img[i + 2] - 128);
+                long temp = img[i] + 256*(img[i + 2] - 128)/183;
+                source[i] = temp < 0 ? (byte)0 : (byte)temp;
+
+                temp = 5329 * ((long)img[i + 1] - 128) + 11103 * ((long)img[i + 2] - 128);
                 source[i + 1] = img[i] - temp / 15481 < 0 ? (byte)0 : (byte)(img[i] - temp / 15481);
-                source[i + 2] = (byte)(img[i] + 256*(img[i + 1] - 128)/144);
+
+                temp = img[i] + 256*(img[i + 1] - 128)/144;
+                source[i + 2] = temp < 0 ? (byte)0 : (byte)temp;
                 source[i + 3] = 255;
             }
             return BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, source, image.PixelWidth * 4);
@@ -203,6 +207,30 @@ namespace ImageCompressing
 
             var bmpSource = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, pixels, stride);
             return bmpSource;
+        }
+
+        private void UniformQuantizing343_OnClick(object sender, RoutedEventArgs e)
+        {
+            var image = (BitmapSource) Img1.Source;
+            var pixels = Img1.Source.ToPixels();
+            pixels = QuantizingMaster.UniformQuantization(pixels, 3, 4, 3);
+            Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, pixels, image.PixelWidth * 4);
+        }
+
+        private void UniformQuantizing442_OnClick(object sender, RoutedEventArgs e)
+        {
+            var image = (BitmapSource)Img1.Source;
+            var pixels = Img1.Source.ToPixels();
+            pixels = QuantizingMaster.UniformQuantization(pixels, 4, 4, 2);
+            Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, pixels, image.PixelWidth * 4);
+        }
+
+        private void UniformQuantizing_YCbCr_244_OnClick(object sender, RoutedEventArgs e)
+        {
+            var image = (BitmapSource)Img1.Source;
+            var pixels = ToYCbCr(image);
+            pixels = QuantizingMaster.UniformQuantization(pixels, 2, 4, 4);
+            Img1.Source = ToRGB(pixels, image);
         }
 
         private byte[] img1;

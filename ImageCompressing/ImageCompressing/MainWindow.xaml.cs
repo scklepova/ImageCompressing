@@ -131,6 +131,13 @@ namespace ImageCompressing
             Img1.Source = ToRGB(img1, (BitmapSource) Img1.Source);
         }
 
+        private void MedianCut_OnClick(object sender, RoutedEventArgs e)
+        {
+            var image = (BitmapSource) Img1.Source;
+            var cutted = QuantizingMaster.MedianCut(image.ToPixels(), 10);
+            Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, cutted, image.PixelWidth * 4);
+        }
+
         /**********************/
 
         private void PsnrButton_OnClick(object sender, RoutedEventArgs e)
@@ -237,5 +244,7 @@ namespace ImageCompressing
         private byte[] img2;
 
         private const int Size = 512;
+
+
     }
 }

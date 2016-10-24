@@ -31,6 +31,7 @@
                     <MenuItem Header="Uniform 3 4 3" Click="UniformQuantizing343_OnClick"></MenuItem>
                     <MenuItem Header="Uniform 4 4 2" Click="UniformQuantizing442_OnClick"></MenuItem>
                     <MenuItem Header="Uniform YCbCr 2 4 4" Click="UniformQuantizing_YCbCr_244_OnClick"></MenuItem>
+                    <MenuItem Header="Median Cut 1024" Click="MedianCut_OnClick"></MenuItem>
                 </MenuItem>
             </MenuItem>
         </Menu>

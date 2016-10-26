@@ -27,78 +27,65 @@ namespace ImageCompressing.Helpers
 
         public static byte[] MedianCut(byte[] pixels, int k)
         {
-            var blocks = new List<Tuple<Color, Color, List<Color>>>();
+            // min и max значения для каждой цветовой компоненты блока, плюс все пиксели, что принадлежат блоку
+            var blocks = new List<Tuple<Color, Color, List<int>>>();
             var colors = GetColorsFromBytes(pixels);
 
             var min = Color.FromArgb(colors.Min(x => x.R), colors.Min(x => x.G), colors.Min(x => x.B));
             var max = Color.FromArgb(colors.Max(x => x.R), colors.Max(x => x.G), colors.Max(x => x.B));
-            blocks.Add(new Tuple<Color, Color, List<Color>>(min, max, colors));
+            var indices = new List<int>();
+            for(var i = 0; i < colors.Count; i++)
+                indices.Add(i);
+
+            blocks.Add(new Tuple<Color, Color, List<int>>(min, max, indices));
 
             for (var i = 0; i < k; i++)
             {
-                var newBlocks = new List<Tuple<Color, Color, List<Color>>>();
+                var newBlocks = new List<Tuple<Color, Color, List<int>>>();
                 foreach (var block in blocks)
                 {
                     if (block.Item2.R - block.Item1.R >= block.Item2.G - block.Item1.G &&
                         block.Item2.R - block.Item1.R >= block.Item2.B - block.Item1.B)
                     {
-                        var ordered = block.Item3.OrderBy(x => x.R).ToList();
-                        var median = GetMedian(ordered, x => x.R);
+                        var ordered = block.Item3.OrderBy(x => colors[x].R).ToList();
+                        var median = GetMedian(ordered.Select(x => colors[x]), x => x.R);
 
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(block.Item1, Color.FromArgb(median, block.Item2.G, block.Item2.B), ordered.GetRange(0, ordered.Count / 2)));
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(Color.FromArgb(median, block.Item1.G, block.Item1.B), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(block.Item1, Color.FromArgb(median, block.Item2.G, block.Item2.B), ordered.GetRange(0, ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(Color.FromArgb(median, block.Item1.G, block.Item1.B), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
                     }
                     else if (block.Item2.G - block.Item1.G >= block.Item2.R - block.Item1.R &&
                              block.Item2.G - block.Item1.G >= block.Item2.B - block.Item1.B)
                     {
-                        var ordered = block.Item3.OrderBy(x => x.G).ToList();
-                        var median = GetMedian(ordered, x => x.G);
+                        var ordered = block.Item3.OrderBy(x => colors[x].G).ToList();
+                        var median = GetMedian(ordered.Select(x => colors[x]), x => x.G);
 
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(block.Item1, Color.FromArgb(block.Item2.R, median, block.Item2.B), ordered.GetRange(0, ordered.Count / 2)));
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(Color.FromArgb(block.Item1.R, median, block.Item1.B), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(block.Item1, Color.FromArgb(block.Item2.R, median, block.Item2.B), ordered.GetRange(0, ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(Color.FromArgb(block.Item1.R, median, block.Item1.B), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
                     }
                     else
                     {
-                        var ordered = block.Item3.OrderBy(x => x.B).ToList();
-                        var median = GetMedian(ordered, x => x.B);
+                        var ordered = block.Item3.OrderBy(x => colors[x].B).ToList();
+                        var median = GetMedian(ordered.Select(x => colors[x]), x => x.B);
 
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(block.Item1, Color.FromArgb(block.Item2.R, block.Item2.G, median), ordered.GetRange(0, ordered.Count / 2)));
-                        newBlocks.Add(new Tuple<Color, Color, List<Color>>(Color.FromArgb(block.Item1.R, block.Item1.G, median), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(block.Item1, Color.FromArgb(block.Item2.R, block.Item2.G, median), ordered.GetRange(0, ordered.Count / 2)));
+                        newBlocks.Add(new Tuple<Color, Color, List<int>>(Color.FromArgb(block.Item1.R, block.Item1.G, median), block.Item2, ordered.GetRange(ordered.Count / 2, ordered.Count - ordered.Count / 2)));
                     }
                 }
                 blocks = newBlocks;
             }
 
-            var list =
-                blocks.Select(
-                    x =>
-                        new Tuple<Color, Color, Color>(x.Item1, x.Item2,
-                            Color.FromArgb(GetMedian(x.Item3, c => c.R), GetMedian(x.Item3, c => c.G), GetMedian(x.Item3, c => c.B)))).ToList();
-
-            var index = 0;
-            foreach(var color in colors)
+            foreach (var block in blocks)
             {
-                var belong = false;
-                foreach (var block in list)
+                var blockColors = block.Item3.Select(x => colors[x]).ToList();
+                var median = Color.FromArgb(GetMedian(blockColors, x => x.R),
+                    GetMedian(blockColors, x => x.G), GetMedian(blockColors, x => x.B));
+
+                foreach ( var index in block.Item3)
                 {
-                    if (BelongsToBlock(color, block.Item1, block.Item2))
-                    {
-                        pixels[index] = block.Item3.R;
-                        pixels[index + 1] = block.Item3.G;
-                        pixels[index + 2] = block.Item3.B;
-//                        index += 4;
-                        belong = true;
-                        break;
-                    }
-                    
+                    pixels[index*4] = median.R;
+                    pixels[index*4 + 1] = median.G;
+                    pixels[index*4 + 2] = median.B;
                 }
-                if (!belong)
-                {
-                    pixels[index] = 0;
-                    pixels[index + 1] = 0;
-                    pixels[index + 2] = 0;
-                }
-                index += 4;
             }
 
             return pixels;
@@ -112,7 +99,7 @@ namespace ImageCompressing.Helpers
             return colors;
         }
 
-        private static int GetMedian(List<Color> colors, Func<Color, int> byComponent)
+        private static int GetMedian(IEnumerable<Color> colors, Func<Color, int> byComponent)
         {
             var ordered = colors.OrderBy(byComponent).ToList();
             return ordered.Count % 2 == 0

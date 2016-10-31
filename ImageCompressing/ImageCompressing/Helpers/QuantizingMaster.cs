@@ -114,5 +114,84 @@ namespace ImageCompressing.Helpers
                    color.B >= min.B && color.B <= max.B;
         }
 
+
+        public static byte[] LBG(byte[] pixels, int degree, int colorsCount)
+        {
+            var codebook = new List<Color>();
+            var colors = GetColorsFromBytes(pixels);
+
+            //init codebook
+            var greenDiv = degree/3;
+            if (degree%3 > 0)
+                greenDiv++;
+            var redDiv = degree / 3;
+            if (degree % 3 > 1)
+                redDiv++;
+            var blueDiv = degree / 3;
+
+            var min = Color.FromArgb(colors.Min(x => x.R), colors.Min(x => x.G), colors.Min(x => x.B));
+            var max = Color.FromArgb(colors.Max(x => x.R), colors.Max(x => x.G), colors.Max(x => x.B));
+            var rStep = (max.R - min.R)/redDiv;
+            var gStep = (max.G - min.G)/greenDiv;
+            var bStep = (max.B - min.B)/blueDiv;
+
+            for(int r = min.R; r < 256; r += rStep)
+                for(int g = min.G; g < 256; g += gStep)
+                    for(int b = min.B; b < 256; b += bStep)
+                        codebook.Add(Color.FromArgb((r + rStep) / 2, (g + gStep) / 2, (b + bStep) / 2));
+
+            //nearestNeighbour надо улучшить, т.к. могут быть неиспользуемые кодовые слова
+            for (var step = 0; step < 2; step++)
+            {
+                var blocks = new Dictionary<Color, List<Color>>();
+                foreach (var code in codebook)
+                {
+                    blocks[code] = new List<Color>();
+                }
+
+                foreach (var pixel in colors)
+                {
+                    var nearest = codebook.First();
+                    foreach(var codeColor in codebook)
+                    {
+                        if (pixel.Dist2(codeColor) < pixel.Dist2(nearest))
+                            nearest = codeColor;
+                    }
+                    blocks[nearest].Add(pixel);
+                }
+
+                codebook.Clear();
+
+                foreach (var block in blocks.Values)
+                    if(block.Count != 0)
+                    {
+                        var midR = block.Sum(x => x.R)/block.Count;
+                        var midG = block.Sum(x => x.G)/block.Count;
+                        var midB = block.Sum(x => x.B)/block.Count;
+                        codebook.Add(Color.FromArgb(midR, midG, midB));
+                    }
+            }
+
+            for (var i = 0; i < colors.Count; i++)
+            {
+                var nearest = codebook.First();
+                foreach (var codeColor in codebook)
+                {
+                    if (colors[i].Dist2(codeColor) < colors[i].Dist2(nearest))
+                        nearest = codeColor;
+                }
+                pixels[i*4] = nearest.R;
+                pixels[i*4 + 1] = nearest.G;
+                pixels[i*4 + 2] = nearest.B;
+            }
+
+            return pixels;
+        }
+
+        private static int Dist2(this Color color, Color target)
+        {
+            return (color.R - target.R)*(color.R - target.R) + (color.G - target.G)*(color.G - target.G) +
+                   (color.B - target.B)*(color.B - target.B);
+        }
     }
 }

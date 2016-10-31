@@ -138,6 +138,13 @@ namespace ImageCompressing
             Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, cutted, image.PixelWidth * 4);
         }
 
+        private void LBG_OnClick(object sender, RoutedEventArgs e)
+        {
+            var image = (BitmapSource)Img1.Source;
+            var cutted = QuantizingMaster.LBG(image.ToPixels(), 10, 1024);
+            Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, cutted, image.PixelWidth * 4);
+        }
+
         /**********************/
 
         private void PsnrButton_OnClick(object sender, RoutedEventArgs e)
@@ -244,7 +251,5 @@ namespace ImageCompressing
         private byte[] img2;
 
         private const int Size = 512;
-
-
     }
 }

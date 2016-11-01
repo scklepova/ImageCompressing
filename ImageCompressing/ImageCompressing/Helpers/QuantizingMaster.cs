@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace ImageCompressing.Helpers
 {
@@ -107,13 +105,6 @@ namespace ImageCompressing.Helpers
                             : (byComponent(ordered[ordered.Count / 2]) + byComponent(ordered[ordered.Count / 2 + 1])) / 2;
         }
 
-        private static bool BelongsToBlock(Color color, Color min, Color max)
-        {
-            return color.R >= min.R && color.R <= max.R &&
-                   color.G >= min.G && color.G <= max.G &&
-                   color.B >= min.B && color.B <= max.B;
-        }
-
 
         public static byte[] LBG(byte[] pixels, int degree, int colorsCount)
         {
@@ -140,7 +131,7 @@ namespace ImageCompressing.Helpers
                     for(int b = min.B; b < 256; b += bStep)
                         codebook.Add(Color.FromArgb((r + rStep) / 2, (g + gStep) / 2, (b + bStep) / 2));
 
-            //nearestNeighbour надо улучшить, т.к. могут быть неиспользуемые кодовые слова
+            //nearestNeighbour  могут быть неиспользуемые кодовые слова
             for (var step = 0; step < 2; step++)
             {
                 var blocks = new Dictionary<Color, List<Color>>();

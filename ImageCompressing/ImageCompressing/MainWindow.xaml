@@ -17,6 +17,7 @@
                     <MenuItem Header="Open" Click="LoadImage1_OnClick"></MenuItem>
                     <MenuItem Header="Copy from the other" Click="CopyImage1_OnClick"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="Save as..." Click="Save_OnClick"></MenuItem>
                 <MenuItem Header="Grayscale">
                     <MenuItem Header="Simple" Click="ToGrayscaleSimple1_OnClick"></MenuItem>
                     <MenuItem Header="CCIR" Click="ToGrayscale1_OnClick"></MenuItem>

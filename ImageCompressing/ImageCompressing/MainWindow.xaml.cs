@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ImageCompressing.Helpers;
 using Microsoft.Win32;
-using Color = System.Drawing.Color;
+
 using Image = System.Windows.Controls.Image;
 
 namespace ImageCompressing
@@ -145,6 +133,25 @@ namespace ImageCompressing
             Img1.Source = BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, cutted, image.PixelWidth * 4);
         }
 
+        private void Save_OnClick(object sender, RoutedEventArgs e)
+        {
+            var test = sender as Image;
+            var image = (BitmapSource)Img1.Source;
+            var saveFileDialog = new SaveFileDialog
+            {
+                Title = "Save an image"
+            };
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(image));
+                    encoder.Save(fileStream);
+                }
+            };
+        }
+
         /**********************/
 
         private void PsnrButton_OnClick(object sender, RoutedEventArgs e)
@@ -247,9 +254,13 @@ namespace ImageCompressing
             Img1.Source = ToRGB(pixels, image);
         }
 
+
+
         private byte[] img1;
         private byte[] img2;
 
         private const int Size = 512;
+
+
     }
 }

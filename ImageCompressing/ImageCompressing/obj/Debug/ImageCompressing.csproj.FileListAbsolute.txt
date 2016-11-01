@@ -11,3 +11,5 @@ C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompres
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.csproj.GenerateResource.Cache
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.exe
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.pdb
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\SimpleQuantizingDialog.baml
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\SimpleQuantizingDialog.g.cs

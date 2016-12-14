@@ -34,6 +34,9 @@
                     <MenuItem Header="Median Cut 1024" Click="MedianCut_OnClick"></MenuItem>
                     <MenuItem Header="LBG 1024" Click="LBG_OnClick"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="JPEG actions">
+                    <MenuItem Header="Downsampling" Click="MenuItem_Downsampling"></MenuItem>
+                </MenuItem>
             </MenuItem>
         </Menu>
         

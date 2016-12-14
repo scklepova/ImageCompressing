@@ -11,14 +11,14 @@ namespace ImageCompressing.Helpers
         {
             for (var i = 0; i + 4 < pixels.Length; i += 4)
             {
-                pixels[i] >>= 8 - rBits;
-                pixels[i] <<= 8 - rBits;
+                pixels[i + 2] >>= 8 - rBits;
+                pixels[i + 2] <<= 8 - rBits;
 
                 pixels[i + 1] >>= 8 - gBits;
                 pixels[i + 1] <<= 8 - gBits;
 
-                pixels[i + 2] >>= 8 - bBits;
-                pixels[i + 2] <<= 8 - bBits;
+                pixels[i] >>= 8 - bBits;
+                pixels[i] <<= 8 - bBits;
             }
             return pixels;
         }

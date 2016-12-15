@@ -168,7 +168,7 @@ namespace ImageCompressing
             Psnr.Content = psnr;
         }
 
-        private byte[] ToYCbCr(BitmapSource image)
+        public static byte[] ToYCbCr(BitmapSource image)
         {
             //BGR а не RGB
             var pixels = image.ToPixels();
@@ -183,7 +183,7 @@ namespace ImageCompressing
             return img;
         }
 
-        private BitmapSource VisualizeYCbCr(byte[] img, BitmapSource image, int offset)
+        public static BitmapSource VisualizeYCbCr(byte[] img, BitmapSource image, int offset)
         {
             var source = new byte[img.Length];
             for (var i = 0; i < img.Length; i += 4)
@@ -215,7 +215,7 @@ namespace ImageCompressing
             return BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, source, image.PixelWidth * 4);
         }
 
-        private byte GetByteValue(long num)
+        private static byte GetByteValue(long num)
         {
             if (num < 0)
                 return 0;
@@ -287,24 +287,25 @@ namespace ImageCompressing
                     image.PixelWidth * 4);
         }
 
-        private void MenuItem_Downsampling(object sender, RoutedEventArgs e)
+        private void MenuItem_Downsampling2h1v(object sender, RoutedEventArgs e)
         {
             var type = "2h1v";
-            var image = (BitmapSource)Img1.Source;
-            var pixels = ToYCbCr(image);
-            var matrix = ToMatrix(pixels);
-            
-            for(var i = 0; i < Size; i += 2)
-                for (var j = 0; j < Size*4; j += 8)
-                {
-                    matrix[i][j + 4 + 1] = matrix[i][j + 1];
-                    matrix[i][j + 4 + 2] = matrix[i][j + 2];
+            var showChannel = ShowCb.IsChecked ? 1 : 2;
+            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
+        }
 
-                    matrix[i + 1][j + 4 + 1] = matrix[i + 1][j + 1];
-                    matrix[i + 1][j + 4 + 2] = matrix[i + 1][j + 2];
-                }
-            pixels = MatrixToPixels(matrix);
-            Img1.Source = VisualizeYCbCr(pixels, (BitmapSource)Img1.Source, 2);
+        private void MenuItem_Downsampling2h2v(object sender, RoutedEventArgs e)
+        {
+            var type = "2h2v";
+            var showChannel = ShowCb.IsChecked ? 1 : 2;
+            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
+        }
+
+        private void MenuItem_Downsampling1h2v(object sender, RoutedEventArgs e)
+        {
+            var type = "1h2v";
+            var showChannel = ShowCb.IsChecked ? 1 : 2;
+            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
         }
 
         private byte[][] ToMatrix(byte[] pixels)

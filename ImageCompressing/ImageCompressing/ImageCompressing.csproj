@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\JpegHelper.cs" />
     <Compile Include="SimpleQuantizingDialog.xaml.cs">
       <DependentUpon>SimpleQuantizingDialog.xaml</DependentUpon>
     </Compile>

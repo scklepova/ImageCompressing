@@ -35,7 +35,14 @@
                     <MenuItem Header="LBG 1024" Click="LBG_OnClick"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="JPEG actions">
-                    <MenuItem Header="Downsampling" Click="MenuItem_Downsampling"></MenuItem>
+                    <MenuItem Header="Downsampling" >
+                        <MenuItem Header="Show Cb" IsCheckable="True" Name="ShowCb"></MenuItem>
+                        <MenuItem Header="Show Cr" IsCheckable="True" Name="ShowCr"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header="2h1v" Click="MenuItem_Downsampling2h1v"></MenuItem>
+                        <MenuItem Header="2h2v" Click="MenuItem_Downsampling2h2v"></MenuItem>
+                        <MenuItem Header="1h2v" Click="MenuItem_Downsampling1h2v"></MenuItem>
+                    </MenuItem>
                 </MenuItem>
             </MenuItem>
         </Menu>

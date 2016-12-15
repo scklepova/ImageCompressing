@@ -291,21 +291,24 @@ namespace ImageCompressing
         {
             var type = "2h1v";
             var showChannel = ShowCb.IsChecked ? 1 : 2;
-            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
+            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
+            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
         }
 
         private void MenuItem_Downsampling2h2v(object sender, RoutedEventArgs e)
         {
             var type = "2h2v";
             var showChannel = ShowCb.IsChecked ? 1 : 2;
-            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
+            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
+            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
         }
 
         private void MenuItem_Downsampling1h2v(object sender, RoutedEventArgs e)
         {
             var type = "1h2v";
             var showChannel = ShowCb.IsChecked ? 1 : 2;
-            Img1.Source = VisualizeYCbCr(JpegHelper.MenuItem_Downsampling(Img1, Size, type), (BitmapSource)Img1.Source, showChannel);
+            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
+            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
         }
 
         private byte[][] ToMatrix(byte[] pixels)

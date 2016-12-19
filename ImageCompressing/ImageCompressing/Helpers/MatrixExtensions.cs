@@ -7,7 +7,9 @@ namespace ImageCompressing.Helpers
         public static double[][] MultiplyBy(this double[][] target, double[][] matrix, int size)
         {
             var ans = new double[size][];
-            for(var i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
+            {
+                ans[i] = new double[size];
                 for (var j = 0; j < size; j++)
                 {
                     double sum = 0;
@@ -15,6 +17,7 @@ namespace ImageCompressing.Helpers
                         sum += target[i][k]*matrix[k][j];
                     ans[i][j] = sum;
                 }
+            }
             return ans;
         }
 
@@ -22,14 +25,16 @@ namespace ImageCompressing.Helpers
         {
             var ans = new double[size][];
             for(var i = 0; i < size; i++)
+                ans[i] = new double[size];
+            for (var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     ans[j][i] = target[i][j];
             return ans;
         }
 
-        public static double[] ToArray(this double[][] matrix, int size)
+        public static T[] ToMyArray<T>(this T[][] matrix, int size)
         {
-            var ans = new double[size * size];
+            var ans = new T[size * size];
             for(var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     ans[i*size + j] = matrix[i][j];

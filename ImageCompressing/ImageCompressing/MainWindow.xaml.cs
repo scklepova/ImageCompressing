@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ImageCompressing.Components;
 using ImageCompressing.Helpers;
 using Microsoft.Win32;
 
@@ -17,7 +18,7 @@ namespace ImageCompressing
         public MainWindow()
         {
             InitializeComponent();
-            const string peppers = @"C:\Users\Burning Soul\Documents\Сжатие изображений\Test_Images\baboon.png";
+            const string peppers = @"C:\Users\Burning Soul\Documents\Сжатие изображений\Test_Images\peppers.png";
             Img1.Source = new BitmapImage(new Uri(peppers));
             Img2.Source = new BitmapImage(new Uri(peppers));
         }
@@ -197,7 +198,7 @@ namespace ImageCompressing
             return BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, source, image.PixelWidth*4);
         }
 
-        private BitmapSource ToRGB(byte[] img, BitmapSource image)
+        public static BitmapSource ToRGB(byte[] img, BitmapSource image)
         {
             var source = new byte[img.Length];
             for (var i = 0; i < img.Length; i += 4)
@@ -215,7 +216,7 @@ namespace ImageCompressing
             return BitmapSource.Create(Size, Size, image.DpiX, image.DpiY, image.Format, null, source, image.PixelWidth * 4);
         }
 
-        private static byte GetByteValue(long num)
+        public static byte GetByteValue(long num)
         {
             if (num < 0)
                 return 0;
@@ -287,29 +288,29 @@ namespace ImageCompressing
                     image.PixelWidth * 4);
         }
 
-        private void MenuItem_Downsampling2h1v(object sender, RoutedEventArgs e)
-        {
-            var type = "2h1v";
-            var showChannel = ShowCb.IsChecked ? 1 : 2;
-            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
-            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
-        }
-
-        private void MenuItem_Downsampling2h2v(object sender, RoutedEventArgs e)
-        {
-            var type = "2h2v";
-            var showChannel = ShowCb.IsChecked ? 1 : 2;
-            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
-            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
-        }
-
-        private void MenuItem_Downsampling1h2v(object sender, RoutedEventArgs e)
-        {
-            var type = "1h2v";
-            var showChannel = ShowCb.IsChecked ? 1 : 2;
-            img1 = JpegHelper.MenuItem_Downsampling(Img1, Size, type);
-            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
-        }
+//        private void MenuItem_Downsampling2h1v(object sender, RoutedEventArgs e)
+//        {
+//            var type = "2h1v";
+//            var showChannel = ShowCb.IsChecked ? 1 : 2;
+//            img1 = JpegHelper.Downsampling(Img1, Size, type);
+//            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
+//        }
+//
+//        private void MenuItem_Downsampling2h2v(object sender, RoutedEventArgs e)
+//        {
+//            var type = "2h2v";
+//            var showChannel = ShowCb.IsChecked ? 1 : 2;
+//            img1 = JpegHelper.Downsampling(Img1, Size, type);
+//            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
+//        }
+//
+//        private void MenuItem_Downsampling1h2v(object sender, RoutedEventArgs e)
+//        {
+//            var type = "1h2v";
+//            var showChannel = ShowCb.IsChecked ? 1 : 2;
+//            img1 = JpegHelper.Downsampling(Img1, Size, type);
+//            Img1.Source = VisualizeYCbCr(img1, (BitmapSource)Img1.Source, showChannel);
+//        }
 
         private byte[][] ToMatrix(byte[] pixels)
         {
@@ -340,6 +341,12 @@ namespace ImageCompressing
                 for (var j = 0; j < Size*4; j++)
                     pixels[i*Size*4 + j] = matrix[i][j];
             return pixels;
+        }
+
+        private void MenuItem_Jpeg(object sender, RoutedEventArgs e)
+        {
+            var jpeg = JpegHelper.JpegSteps(Img1, Size, "2h2v", QuantizingType.Nullify, 1, 1, 10, 10);
+            Img1.Source = jpeg;
         }
     }
 }

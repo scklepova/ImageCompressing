@@ -9,14 +9,17 @@ namespace ImageCompressing.Helpers
             this.alpha = alpha;
             this.gamma = gamma;
             Q = new int[size][];
-            for(var i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
+            {
+                Q[i] = new int[size];
                 for (var j = 0; j < size; j++)
                     Q[i][j] = alpha*(1 + gamma*(i + j + 2));
+            }
         }
 
-        public double[][] SimpleQuantizing(double[][] matrix, int remainingCount)
+        public int[][] SimpleQuantizing(int[][] matrix, int remainingCount)
         {
-            var border = matrix.ToArray(size).OrderByDescending(x => x).ToArray()[remainingCount];
+            var border = matrix.ToMyArray(size).OrderByDescending(x => x).ToArray()[remainingCount];
             for (var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     if (matrix[i][j] <= border)
@@ -24,22 +27,41 @@ namespace ImageCompressing.Helpers
             return matrix;
         }
 
-        public double[][] QQuantizing(double[][] matrix)
+        public int[][] QQuantizing(int[][] matrix)
         {
-            var ans = new double[size][];
+            var ans = new int[size][];
             for(var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     ans[i][j] = matrix[i][j]/Q[i][j];
             return ans;
         }
 
-        public double[][] QuantizingRecommended(double[][] matrix, string channel)
+        public int[][] BackQQuantizing(int[][] matrix)
         {
-            var ans = new double[size][];
+            var ans = new int[size][];
+            for (var i = 0; i < size; i++)
+                for (var j = 0; j < size; j++)
+                    ans[i][j] = matrix[i][j] * Q[i][j];
+            return ans;
+        }
+
+        public int[][] QuantizingRecommended(int[][] matrix, string channel)
+        {
+            var ans = new int[size][];
             var denomMatrix = channel == "Y" ? recommendedY : recommendedC;
             for (var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     ans[i][j] = matrix[i][j] / denomMatrix[i][j];
+            return ans;
+        }
+
+        public int[][] BackQuantizingRecommended(int[][] matrix, string channel)
+        {
+            var ans = new int[size][];
+            var denomMatrix = channel == "Y" ? recommendedY : recommendedC;
+            for (var i = 0; i < size; i++)
+                for (var j = 0; j < size; j++)
+                    ans[i][j] = matrix[i][j] * denomMatrix[i][j];
             return ans;
         }
 

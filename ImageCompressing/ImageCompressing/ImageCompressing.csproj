@@ -34,8 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoreLinq">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SevenZip.SDK">
+      <HintPath>..\packages\SevenZip.SDK.1.0.0\lib\SevenZip.SDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,10 +64,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Components\QuantizingType.cs" />
+    <Compile Include="Helpers\ArrayExtensions.cs" />
     <Compile Include="Helpers\DiscreteCosineTransformator.cs" />
     <Compile Include="Helpers\JpegHelper.cs" />
     <Compile Include="Helpers\JpegQuantisor.cs" />
     <Compile Include="Helpers\MatrixExtensions.cs" />
+    <Compile Include="JPEGdialog.xaml.cs">
+      <DependentUpon>JPEGdialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SimpleQuantizingDialog.xaml.cs">
       <DependentUpon>SimpleQuantizingDialog.xaml</DependentUpon>
     </Compile>
@@ -80,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="JPEGdialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SimpleQuantizingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ImageCompressing.Components;
+using MoreLinq;
+
+
 
 
 namespace ImageCompressing.Helpers
 {
     public class JpegHelper
     {
-        public static BitmapSource JpegSteps(Image image, int size, string downsamplingType, QuantizingType quantizingType, int alpha, int gamma, int remainingCountY, int remainingCountC)
+        public static BitmapSource JpegSteps(Image image, int size, string downsamplingType, QuantizingType quantizingType, 
+            int alphaY, int gammaY, int alphaC, int gammaC, int remainingCountY, int remainingCountC)
         {
             var source = ((BitmapSource)image.Source);
             var ycbcr = MainWindow.ToYCbCr(source);
@@ -34,33 +39,35 @@ namespace ImageCompressing.Helpers
             var dct = new DiscreteCosineTransformator();
             var hSize = size/getHorSizeLossByType[downsamplingType];
             var vSize = size/getVertSizeLossByType[downsamplingType];
-            var yBlocks = SplitTo8x8Matrices(matrixY, size, size).Select(dct.DCT);
-            var cbBlocks = SplitTo8x8Matrices(matrixCb, hSize, vSize).Select(dct.DCT);
-            var crBlocks = SplitTo8x8Matrices(matrixCr, hSize, vSize).Select(dct.DCT); 
+            var yBlocks = SplitTo8x8Matrices(matrixY, size, size).Select(dct.DCT).ToList();
+            var cbBlocks = SplitTo8x8Matrices(matrixCb, hSize, vSize).Select(dct.DCT).ToList();
+            var crBlocks = SplitTo8x8Matrices(matrixCr, hSize, vSize).Select(dct.DCT).ToList(); 
 
             //*** Quantizing
-            var quantizor = new JpegQuantisor(alpha, gamma);
+            var quantizorY = new JpegQuantisor(alphaY, gammaY);
+            var quantizorC = new JpegQuantisor(alphaC, gammaC);
             switch (quantizingType)
             {
                 case QuantizingType.Nullify:
-                    yBlocks = yBlocks.Select(x => quantizor.SimpleQuantizing(x, remainingCountY));
-                    cbBlocks = cbBlocks.Select(x => quantizor.SimpleQuantizing(x, remainingCountC));
-                    crBlocks = crBlocks.Select(x => quantizor.SimpleQuantizing(x, remainingCountC));
+                    yBlocks = yBlocks.Select(x => quantizorY.SimpleQuantizing(x, remainingCountY)).ToList();
+                    cbBlocks = cbBlocks.Select(x => quantizorC.SimpleQuantizing(x, remainingCountC)).ToList();
+                    crBlocks = crBlocks.Select(x => quantizorC.SimpleQuantizing(x, remainingCountC)).ToList();
                     break;
                 case QuantizingType.AlphaGamma:
-                    yBlocks = yBlocks.Select(quantizor.QQuantizing);
-                    cbBlocks = cbBlocks.Select(quantizor.QQuantizing);
-                    crBlocks = crBlocks.Select(quantizor.QQuantizing);
+                    yBlocks = yBlocks.Select(quantizorY.QQuantizing).ToList();
+                    cbBlocks = cbBlocks.Select(quantizorC.QQuantizing).ToList();
+                    crBlocks = crBlocks.Select(quantizorC.QQuantizing).ToList();
                     break;
                 default:
-                    yBlocks = yBlocks.Select(x => quantizor.QuantizingRecommended(x, "Y"));
-                    cbBlocks = cbBlocks.Select(x => quantizor.QuantizingRecommended(x, "Cb"));
-                    crBlocks = crBlocks.Select(x => quantizor.QuantizingRecommended(x, "Cr"));
+                    yBlocks = yBlocks.Select(x => quantizorY.QuantizingRecommended(x, "Y")).ToList();
+                    cbBlocks = cbBlocks.Select(x => quantizorC.QuantizingRecommended(x, "Cb")).ToList();
+                    crBlocks = crBlocks.Select(x => quantizorC.QuantizingRecommended(x, "Cr")).ToList();
                     break;
             }
 
             //*** saving to file
-
+            
+            WriteToFile(size, size, yBlocks, cbBlocks, crBlocks, downsamplingType, quantizingType, alphaY, gammaY, alphaC,gammaC, remainingCountY, remainingCountC);
 
             //*** back steps:
 
@@ -70,21 +77,21 @@ namespace ImageCompressing.Helpers
                 case QuantizingType.Nullify:
                     break;
                 case QuantizingType.AlphaGamma:
-                    yBlocks = yBlocks.Select(quantizor.BackQQuantizing);
-                    cbBlocks = cbBlocks.Select(quantizor.BackQQuantizing);
-                    crBlocks = crBlocks.Select(quantizor.BackQQuantizing);
+                    yBlocks = yBlocks.Select(quantizorY.BackQQuantizing).ToList();
+                    cbBlocks = cbBlocks.Select(quantizorC.BackQQuantizing).ToList();
+                    crBlocks = crBlocks.Select(quantizorC.BackQQuantizing).ToList();
                     break;
                 default:
-                    yBlocks = yBlocks.Select(x => quantizor.BackQuantizingRecommended(x, "Y"));
-                    cbBlocks = cbBlocks.Select(x => quantizor.BackQuantizingRecommended(x, "Cb"));
-                    crBlocks = crBlocks.Select(x => quantizor.BackQuantizingRecommended(x, "Cr"));
+                    yBlocks = yBlocks.Select(x => quantizorY.BackQuantizingRecommended(x, "Y")).ToList();
+                    cbBlocks = cbBlocks.Select(x => quantizorC.BackQuantizingRecommended(x, "Cb")).ToList();
+                    crBlocks = crBlocks.Select(x => quantizorC.BackQuantizingRecommended(x, "Cr")).ToList();
                     break;
             }
 
             //*** back DCT
-            yBlocks = yBlocks.Select(dct.InverseDCT);
-            cbBlocks = cbBlocks.Select(dct.InverseDCT);
-            crBlocks = crBlocks.Select(dct.InverseDCT);
+            yBlocks = yBlocks.Select(dct.InverseDCT).ToList();
+            cbBlocks = cbBlocks.Select(dct.InverseDCT).ToList();
+            crBlocks = crBlocks.Select(dct.InverseDCT).ToList();
 
             //*** back to whole matrix
 
@@ -93,10 +100,10 @@ namespace ImageCompressing.Helpers
             var backCr = Matrices8x8ToOne(crBlocks.ToList(), hSize, vSize);
 
             //*** back downsampling
-            backCb = BackDownsampling(matrixCb, size, downsamplingType);
-            backCr = BackDownsampling(matrixCr, size, downsamplingType);
+            backCb = BackDownsampling(backCb, size, downsamplingType);
+            backCr = BackDownsampling(backCr, size, downsamplingType);
 
-            compY = MatrixToPixels(matrixY, size);
+            compY = MatrixToPixels(backY, size);
             compCb = MatrixToPixels(backCb, size);
             compCr = MatrixToPixels(backCr, size);
 
@@ -171,7 +178,7 @@ namespace ImageCompressing.Helpers
             for (var i = 0; i < targetSize/yStep; i++)
             {
                 matrix[i*yStep] = new byte[targetSize];
-                matrix[i*yStep + 1] = new byte[targetSize];
+                if( yStep > 1) matrix[i*yStep + 1] = new byte[targetSize];
                 for (var j = 0; j < targetSize/xStep; j++)
                     matrix[i*yStep][j*xStep] = source[i][j];
             }
@@ -213,7 +220,7 @@ namespace ImageCompressing.Helpers
                 {
                     for (var u = 0; u < 8; u++)
                     {
-                        ans[u + i] = new byte[hSize];
+                        if(ans[u + i] == null )ans[u + i] = new byte[hSize];
                         for (var v = 0; v < 8; v++)
                             ans[u + i][v + j] = MainWindow.GetByteValue(source[k][u][v]);
                     }
@@ -248,7 +255,92 @@ namespace ImageCompressing.Helpers
                 for (var j = 0; j < size; j++)
                     pixels[i * size + j] = matrix[i][j];
             return pixels;
-        } 
+        }
+
+        private static void WriteToFile(int width, int height, IEnumerable<int[][]> yBlocks, IEnumerable<int[][]> cbBlocks, IEnumerable<int[][]> crBlocks,
+            string subsamplingType, QuantizingType quantizingType, int alphaY, int gammaY, int alphaC, int gammaC, int nY, int nC)
+        {
+            //*** saving to file
+            // format: height, width, number of yblocks, yblocks, number of cbBlocks, cbBlocks, number of crBlocks, crBlocks,
+            //         subsampling type, 
+            //         quantizing type
+            //         Ny Nc
+            //         alpha gamma
+            var filename = "test.myjpg";
+            using (var writer = new BinaryWriter(File.Open(string.Format(filename), FileMode.Create)))
+            {
+                writer.Write(height);
+                writer.Write(width);
+                writer.Write(yBlocks.Count());
+                foreach (var block in yBlocks.Select(x => x.ToZigZagArray(8)))
+                {
+                    block.ForEach(x => writer.Write(x));
+                }
+                writer.Write(cbBlocks.Count());
+                foreach (var block in cbBlocks.Select(x => x.ToZigZagArray(8)))
+                {
+                    block.ForEach(x => writer.Write(x));
+                }
+                writer.Write(crBlocks.Count());
+                foreach (var block in crBlocks.Select(x => x.ToZigZagArray(8)))
+                {
+                    block.ForEach(x => writer.Write(x));
+                }
+                writer.Write(getSubsamplingCodeByType[subsamplingType]);
+                writer.Write(getQuantizingCodeByType[quantizingType]);
+                writer.Write(nY);
+                writer.Write(nC);
+                writer.Write(alphaY);
+                writer.Write(gammaY);
+                writer.Write(alphaC);
+                writer.Write(gammaC);
+            }
+            Zip7(filename);
+        }
+
+        private static void Zip7(string filename)
+        {
+            var encoder = new SevenZip.SDK.Compress.LZMA.Encoder();
+            var outputFilename = filename + "zipped.7z";
+            using (var input = new FileStream(filename, FileMode.Open))
+            {
+                using (var output = new FileStream(outputFilename, FileMode.Create))
+                {
+                    encoder.Code(input, output, input.Length, -1, null);
+                    output.Flush();
+                }
+            }
+        }
+
+        private static Dictionary<QuantizingType, int> getQuantizingCodeByType = new Dictionary<QuantizingType, int>
+        {
+            {QuantizingType.Nullify, 0},
+            {QuantizingType.AlphaGamma, 1},
+            {QuantizingType.Recommended, 2}
+        };
+
+        private static Dictionary<int, QuantizingType> getQuantizingTypeByCode = new Dictionary<int, QuantizingType>
+        {
+            {0, QuantizingType.Nullify},
+            {1, QuantizingType.AlphaGamma},
+            {2, QuantizingType.Recommended}
+        }; 
+
+        private static Dictionary<string, int> getSubsamplingCodeByType = new Dictionary<string, int>
+        {
+            {"2h2v", 0},
+            {"2h1v", 1},
+            {"1h2v", 2},
+            {"1h1v", 3}
+        };
+
+        private static Dictionary<int, string> getSubsamplingTypeByCode = new Dictionary<int, string>
+        {
+            {0, "2h2v"},
+            {1, "2h1v"},
+            {2, "1h2v"},
+            {3, "1h1v"}
+        }; 
 
         private static Dictionary<string, int> getVertSizeLossByType = new Dictionary<string, int>
         {

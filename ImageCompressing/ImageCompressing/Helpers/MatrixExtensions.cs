@@ -41,7 +41,7 @@ namespace ImageCompressing.Helpers
             return ans;
         }
 
-        public static int[] ZigZagToArray(this int[][] matrix, int size)
+        public static int[] ToZigZagArray(this int[][] matrix, int size)
         {
             var ans = new int[size * size];
             var i = 0;

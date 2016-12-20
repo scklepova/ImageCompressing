@@ -30,9 +30,12 @@ namespace ImageCompressing.Helpers
         public int[][] QQuantizing(int[][] matrix)
         {
             var ans = new int[size][];
-            for(var i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
+            {
+                ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
                     ans[i][j] = matrix[i][j]/Q[i][j];
+            }
             return ans;
         }
 
@@ -40,8 +43,11 @@ namespace ImageCompressing.Helpers
         {
             var ans = new int[size][];
             for (var i = 0; i < size; i++)
+            {
+                ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
-                    ans[i][j] = matrix[i][j] * Q[i][j];
+                    ans[i][j] = matrix[i][j]*Q[i][j];
+            }
             return ans;
         }
 
@@ -50,8 +56,11 @@ namespace ImageCompressing.Helpers
             var ans = new int[size][];
             var denomMatrix = channel == "Y" ? recommendedY : recommendedC;
             for (var i = 0; i < size; i++)
+            {
+                ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
-                    ans[i][j] = matrix[i][j] / denomMatrix[i][j];
+                    ans[i][j] = matrix[i][j]/denomMatrix[i][j];
+            }
             return ans;
         }
 
@@ -60,8 +69,11 @@ namespace ImageCompressing.Helpers
             var ans = new int[size][];
             var denomMatrix = channel == "Y" ? recommendedY : recommendedC;
             for (var i = 0; i < size; i++)
+            {
+                ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
-                    ans[i][j] = matrix[i][j] * denomMatrix[i][j];
+                    ans[i][j] = matrix[i][j]*denomMatrix[i][j];
+            }
             return ans;
         }
 

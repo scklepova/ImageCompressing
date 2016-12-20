@@ -1,0 +1,55 @@
+﻿<Window x:Class="ImageCompressing.JPEGdialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="JPEG parameters" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ComboBox Name="subsamplingType" Width="100" Grid.Row="0" Grid.Column="1">
+            <ComboBoxItem Name="type2h2v">2h2v</ComboBoxItem>
+            <ComboBoxItem Name="type2h1v">2h1v</ComboBoxItem>
+            <ComboBoxItem Name="type1h2v">1h2v</ComboBoxItem>
+            <ComboBoxItem Name="type1h1v">1h1v</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Width="100" Grid.Row="1" Grid.Column="1" Name="quantizationType">
+            <ComboBoxItem Name="simple">Nullify small</ComboBoxItem>
+            <ComboBoxItem Name="alphagamma">Alpha and gamma</ComboBoxItem>
+            <ComboBoxItem Name="recommended">Recommended</ComboBoxItem>
+        </ComboBox>
+        <TextBox Name="nY" Width="100" Grid.Row="2" Grid.Column="1"></TextBox>
+        <TextBox Name="nC" Width="100" Grid.Row="3" Grid.Column="1"></TextBox>
+        
+        <TextBox Name="alphaY" Width="100" Grid.Row="4" Grid.Column="1"></TextBox>
+        <TextBox Name="gammaY" Width="100" Grid.Row="5" Grid.Column="1"></TextBox>
+
+        <TextBox Name="alphaC" Width="100" Grid.Row="6" Grid.Column="1"></TextBox>
+        <TextBox Name="gammaC" Width="100" Grid.Row="7" Grid.Column="1"></TextBox>
+
+        <Label Grid.Column="0" Grid.Row="0">Subsampling Type</Label>
+        <Label Grid.Column="0" Grid.Row="1">Quantization Type</Label>
+        <Label Grid.Column="0" Grid.Row="2">Ny</Label>
+        <Label Grid.Column="0" Grid.Row="3">Nc</Label>
+        <Label Grid.Column="0" Grid.Row="4">Alpha Y</Label>
+        <Label Grid.Column="0" Grid.Row="5">Gamma Y</Label>
+        <Label Grid.Column="0" Grid.Row="6">Alpha C</Label>
+        <Label Grid.Column="0" Grid.Row="7">Gamma C</Label>
+
+        <Button Grid.Row="8" Grid.Column="0" Click="Ok_OnClick">Ok</Button>
+    </Grid>
+    
+    
+</Window>

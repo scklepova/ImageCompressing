@@ -15,3 +15,9 @@ C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompres
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\SimpleQuantizingDialog.g.cs
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\nunit.framework.dll
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\nunit.framework.xml
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\MoreLinq.dll
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\MoreLinq.xml
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\JPEGdialog.baml
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\JPEGdialog.g.cs
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\SevenZip.SDK.dll
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\SevenZip.SDK.xml

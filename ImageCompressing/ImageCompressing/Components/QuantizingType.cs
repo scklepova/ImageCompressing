@@ -2,8 +2,8 @@
 {
     public enum QuantizingType
     {
-        Nullify,
-        AlphaGamma,
-        Recommended
+        Nullify = 0,
+        AlphaGamma = 1,
+        Recommended = 2
     }
 }

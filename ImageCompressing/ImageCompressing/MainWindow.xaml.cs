@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -345,8 +346,25 @@ namespace ImageCompressing
 
         private void MenuItem_Jpeg(object sender, RoutedEventArgs e)
         {
-            var jpeg = JpegHelper.JpegSteps(Img1, Size, "2h2v", QuantizingType.Nullify, 1, 1, 10, 10);
-            Img1.Source = jpeg;
+            var dialog = new JPEGdialog();
+            dialog.ShowDialog();
+            if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+            {
+                var jpeg = JpegHelper.JpegSteps(Img1, Size, 
+                    dialog.subsamplingType.Text, 
+                    getQuantizingType[dialog.quantizationType.Text], 
+                    int.Parse(dialog.alphaY.Text), int.Parse(dialog.gammaY.Text), 
+                    int.Parse(dialog.alphaC.Text), int.Parse(dialog.gammaC.Text), 
+                    int.Parse(dialog.nY.Text), int.Parse(dialog.nC.Text));
+                Img1.Source = jpeg;
+            }
         }
+
+        private Dictionary<string, QuantizingType> getQuantizingType = new Dictionary<string, QuantizingType>
+        {
+            {"Nullify small", QuantizingType.Nullify},
+            {"Alpha and gamma", QuantizingType.AlphaGamma},
+            {"Recommended", QuantizingType.Recommended}
+        }; 
     }
 }

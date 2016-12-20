@@ -13,3 +13,5 @@ C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompres
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\ImageCompressing.pdb
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\SimpleQuantizingDialog.baml
 C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\obj\Debug\SimpleQuantizingDialog.g.cs
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\nunit.framework.dll
+C:\Users\Burning Soul\Documents\Сжатие изображений\ImageCompressing\ImageCompressing\bin\Debug\nunit.framework.xml

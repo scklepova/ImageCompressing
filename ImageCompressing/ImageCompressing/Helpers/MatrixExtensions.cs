@@ -41,9 +41,9 @@ namespace ImageCompressing.Helpers
             return ans;
         }
 
-        public static double[] ZigZagToArray(this double[][] matrix, int size)
+        public static int[] ZigZagToArray(this int[][] matrix, int size)
         {
-            var ans = new double[size * size];
+            var ans = new int[size * size];
             var i = 0;
             var j = 0;
             var k = 0;
@@ -51,12 +51,13 @@ namespace ImageCompressing.Helpers
             {
                 ans[k] = matrix[i][j];
                 k++;
-                if (i == 0)
+                if (i == 0 || j == size - 1)
                 {
-                    j++;
+                    if (j == size - 1) i++;
+                    else j++;
                     if (j >= size)
                         break;
-                    while (j > 0 && i < size)
+                    while (j > 0 && i < size - 1)
                     {
                         ans[k] = matrix[i][j];
                         i++;
@@ -64,18 +65,21 @@ namespace ImageCompressing.Helpers
                         k++;
                     } 
                 }
-                else
+                else if(j == 0 || i == size - 1)
                 {
-                    i++;
+                    if (i == size - 1)
+                        j++;
+                    else i++;
+
                     if (i >= size)
                         break;
-                    while (i > 0 && j < size)
+                    while (i > 0 && j < size - 1)
                     {
                         ans[k] = matrix[i][j];
                         i--;
                         j++;
                         k++;
-                    } 
+                    }
                 }
             }
             return ans;

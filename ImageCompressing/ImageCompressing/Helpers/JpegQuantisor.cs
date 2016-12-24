@@ -19,10 +19,14 @@ namespace ImageCompressing.Helpers
 
         public int[][] SimpleQuantizing(int[][] matrix, int remainingCount)
         {
-            var border = matrix.ToMyArray(size).OrderByDescending(x => x).ToArray()[remainingCount];
+            var border = matrix.ToMyArray(size).OrderByDescending(x => x).ToArray()[remainingCount - 1];
+            if (border != matrix[0][0])
+            {
+                var t = 0;
+            }
             for (var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
-                    if (matrix[i][j] <= border)
+                    if (matrix[i][j] < border)
                         matrix[i][j] = 0;
             return matrix;
         }
@@ -59,7 +63,7 @@ namespace ImageCompressing.Helpers
             {
                 ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
-                    ans[i][j] = matrix[i][j]/denomMatrix[i][j];
+                    ans[i][j] = matrix[i][j]/denomMatrix[i][j] * 5;
             }
             return ans;
         }
@@ -72,7 +76,7 @@ namespace ImageCompressing.Helpers
             {
                 ans[i] = new int[size];
                 for (var j = 0; j < size; j++)
-                    ans[i][j] = matrix[i][j]*denomMatrix[i][j];
+                    ans[i][j] = matrix[i][j]*denomMatrix[i][j] / 5;
             }
             return ans;
         }

@@ -69,6 +69,8 @@
     <Compile Include="Helpers\JpegHelper.cs" />
     <Compile Include="Helpers\JpegQuantisor.cs" />
     <Compile Include="Helpers\MatrixExtensions.cs" />
+    <Compile Include="Helpers\VectorExtensions.cs" />
+    <Compile Include="Helpers\WaveletTransformator.cs" />
     <Compile Include="JPEGdialog.xaml.cs">
       <DependentUpon>JPEGdialog.xaml</DependentUpon>
     </Compile>

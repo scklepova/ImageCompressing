@@ -21,6 +21,16 @@ namespace ImageCompressing.Helpers
             return ans;
         }
 
+        public static double[] MultiplyBy(this double[][] matrix, double[] vector, int size)
+        {
+            var ans = new double[size];
+            for (var i = 0; i < size; i++)
+            {
+                ans[i] = matrix[i].MultiplyBy(vector, size).GetSum(size);
+            }
+            return ans;
+        }
+
         public static double[][] GetTranspose(this double[][] target, int size)
         {
             var ans = new double[size][];
@@ -83,6 +93,20 @@ namespace ImageCompressing.Helpers
                 }
             }
             return ans;
+        }
+
+        public static double[] GetColumn(this double[][] matrix, int size, int num)
+        {
+            var ans = new double[size];
+            for (var i = 0; i < size; i++)
+                ans[i] = matrix[i][num];
+            return ans;
+        }
+
+        public static void SetColumn(this double[][] matrix, double[] column, int size, int num)
+        {
+            for (var i = 0; i < size; i++)
+                matrix[i][num] = column[i];
         }
     }
 }

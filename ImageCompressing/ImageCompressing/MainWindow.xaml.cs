@@ -360,11 +360,19 @@ namespace ImageCompressing
             }
         }
 
+        private void MenuItem_Wavelet(object sender, RoutedEventArgs e)
+        {
+            var wavelet = WaveletTransformator.WaveletStep(Img1, Size, 128);
+            Img1.Source = wavelet;
+        }
+
         private Dictionary<string, QuantizingType> getQuantizingType = new Dictionary<string, QuantizingType>
         {
             {"Nullify small", QuantizingType.Nullify},
             {"Alpha and gamma", QuantizingType.AlphaGamma},
             {"Recommended", QuantizingType.Recommended}
-        }; 
+        };
+
+
     }
 }

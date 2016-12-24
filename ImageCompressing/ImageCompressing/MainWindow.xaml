@@ -37,6 +37,7 @@
                 <MenuItem Header="JPEG actions">
                     <MenuItem Header="Try" Click="MenuItem_Jpeg"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="Wavelet" Click="MenuItem_Wavelet"></MenuItem>
             </MenuItem>
         </Menu>
         

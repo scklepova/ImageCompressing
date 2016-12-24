@@ -7,9 +7,6 @@ using System.Windows.Media.Imaging;
 using ImageCompressing.Components;
 using MoreLinq;
 
-
-
-
 namespace ImageCompressing.Helpers
 {
     public class JpegHelper
@@ -229,17 +226,17 @@ namespace ImageCompressing.Helpers
             return ans;
         }
 
-        private static byte[][] ToMatrix(byte[] pixels, int size)
+        public static T[][] ToMatrix<T>(T[] pixels, int size)
         {
             var i = -1;
-            var matrix = new byte[size][];
+            var matrix = new T[size][];
             for (var k = 0; k < pixels.Length; k ++)
             {
                 var j = k % size;
                 if (j == 0)
                 {
                     i++;
-                    matrix[i] = new byte[size];
+                    matrix[i] = new T[size];
                 }
 
                 matrix[i][j] = pixels[k];
@@ -248,9 +245,9 @@ namespace ImageCompressing.Helpers
             return matrix;
         }
 
-        private static byte[] MatrixToPixels(byte[][] matrix, int size)
+        public static T[] MatrixToPixels<T>(T[][] matrix, int size)
         {
-            var pixels = new byte[size * size];
+            var pixels = new T[size * size];
             for (var i = 0; i < size; i++)
                 for (var j = 0; j < size; j++)
                     pixels[i * size + j] = matrix[i][j];

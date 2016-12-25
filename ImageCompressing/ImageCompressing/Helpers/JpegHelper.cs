@@ -295,7 +295,7 @@ namespace ImageCompressing.Helpers
             Zip7(filename);
         }
 
-        private static void Zip7(string filename)
+        public static void Zip7(string filename)
         {
             var encoder = new SevenZip.SDK.Compress.LZMA.Encoder();
             var outputFilename = filename + "zipped.7z";

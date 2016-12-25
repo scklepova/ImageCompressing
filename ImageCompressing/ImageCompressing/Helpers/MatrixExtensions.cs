@@ -95,15 +95,15 @@ namespace ImageCompressing.Helpers
             return ans;
         }
 
-        public static double[] GetColumn(this double[][] matrix, int size, int num)
+        public static T[] GetColumn<T>(this T[][] matrix, int size, int num)
         {
-            var ans = new double[size];
+            var ans = new T[size];
             for (var i = 0; i < size; i++)
                 ans[i] = matrix[i][num];
             return ans;
         }
 
-        public static void SetColumn(this double[][] matrix, double[] column, int size, int num)
+        public static void SetColumn<T>(this T[][] matrix, T[] column, int size, int num)
         {
             for (var i = 0; i < size; i++)
                 matrix[i][num] = column[i];

@@ -19,7 +19,7 @@ namespace ImageCompressing
         public MainWindow()
         {
             InitializeComponent();
-            const string peppers = @"C:\Users\Burning Soul\Documents\Сжатие изображений\Test_Images\peppers.png";
+            const string peppers = @"C:\Users\Burning Soul\Documents\Сжатие изображений\Test_Images\lenna.png";
             Img1.Source = new BitmapImage(new Uri(peppers));
             Img2.Source = new BitmapImage(new Uri(peppers));
         }
@@ -362,7 +362,7 @@ namespace ImageCompressing
 
         private void MenuItem_Wavelet(object sender, RoutedEventArgs e)
         {
-            var wavelet = WaveletTransformator.WaveletStep(Img1, Size, 128);
+            var wavelet = WaveletTransformator.WaveletStep(Img1, Size, 100);
             Img1.Source = wavelet;
         }
 
